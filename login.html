@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Raleway:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header with Logo -->
+    <header class="header">
+        <div class="logo">
+            <h1>Online Store</h1>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password" required><br>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        <p>Forgot your password? <a href="javascript:void(0);" id="forgotPasswordLink">Click here</a></p>
+
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Reset Your Password</h2>
+            <form id="forgotPasswordForm">
+                <label for="resetEmail">Enter your email:</label>
+                <input type="email" id="resetEmail" placeholder="Enter your registered email" required><br>
+                <button type="submit" class="submit-btn">Send Verification Code</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('forgotPasswordLink').addEventListener('click', function() {
+            document.getElementById('forgotPasswordModal').style.display = 'block';
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('forgotPasswordModal').style.display = 'none';
+        });
+
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const resetEmail = document.getElementById('resetEmail').value;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const user = users.find(user => user.email === resetEmail);
+
+            if (user) {
+                // Simulate sending the verification code to the user's email
+                const verificationCode = Math.floor(100000 + Math.random() * 900000); // 6-digit code
+                alert(`A verification code has been sent to your email: ${verificationCode}`);
+
+                // Store the verification code and user email for validation
+                localStorage.setItem('verificationCode', verificationCode);
+                localStorage.setItem('userEmail', resetEmail);
+
+                // Close the modal and alert user
+                document.getElementById('forgotPasswordModal').style.display = 'none';
+                alert('Check your email for the verification code!');
+                window.location.href = 'verify-code.html';  // Redirect to the verification page
+            } else {
+                alert('Email not found. Please try again.');
+            }
+        });
+
+        // Login Form Logic
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const user = users.find(user => user.email === email && user.password === password);
+
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                alert('Login successful!');
+                window.location.href = 'index.html'; // Redirect to homepage
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+    </script>
+
+</body>
+</html>

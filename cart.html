@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Raleway:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header with Logo -->
+    <header class="header">
+        <div class="logo">
+            <h1>Online Store</h1>
+        </div>
+    </header>
+
+    <!-- Cart Contents -->
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <div class="total-price">
+            Total: $<span id="totalPrice">0</span>
+        </div>
+        <button onclick="checkout()">Proceed to Checkout</button>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        function displayCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalPriceElement = document.getElementById('totalPrice');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <p>${item.name} - $${item.price}</p>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                total += item.price;
+            });
+
+            totalPriceElement.textContent = total.toFixed(2);
+        }
+
+        function checkout() {
+            window.location.href = 'payment.html';
+        }
+
+        displayCart();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Raleway:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <h1>Online Store</h1>
+        </div>
+    </header>
+
+    <!-- Payment Confirmation Instructions -->
+    <div class="confirmation-container">
+        <h2>Payment Confirmation</h2>
+        <p>We need to verify that your payment has been completed.</p>
+        <p>After you have sent the USDT to our wallet address (970645612), please either:</p>
+        <ol>
+            <li>Upload a screenshot of your transaction below.</li>
+            <li>DM us on Instagram at <strong>@xruens</strong> with a screenshot of your payment.</li>
+        </ol>
+        
+        <!-- Upload Screenshot -->
+        <label for="screenshot">Upload Payment Screenshot:</label>
+        <input type="file" id="screenshot" accept="image/*"><br><br>
+
+        <button onclick="submitPaymentProof()" class="submit-btn">Submit Proof of Payment</button>
+    </div>
+
+    <script>
+        function submitPaymentProof() {
+            const screenshot = document.getElementById('screenshot').files[0];
+
+            if (!screenshot) {
+                alert('Please upload a screenshot of your payment.');
+                return;
+            }
+
+            // You can send this proof to your server or email for manual verification
+            alert('Your payment proof has been submitted. We will verify it shortly.');
+            window.location.href = 'payment-success.html';  // Redirect to success page after verification
+        }
+    </script>
+
+</body>
+</html>
